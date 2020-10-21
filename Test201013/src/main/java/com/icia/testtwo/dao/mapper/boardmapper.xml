@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Board"> 
+ 
+ 	<insert id="boardWrite" parameterType="board">
+ 		INSERT INTO BOARDTEST(BNUMBER, BPASSWORD, BWRITER, BTITLE, BCONTENTS, BDATE, BHITS)
+ 		VALUES(BNUMBER_TEST_SEQ.NEXTVAL,#{bpassword},#{bwriter},#{btitle},#{bcontents},SYSDATE,0)
+ 	</insert>
+ 	
+ 	<insert id="boardWriteFile" parameterType="board">
+ 		INSERT INTO BOARDTEST(BNUMBER, BPASSWORD, BWRITER, BTITLE, BCONTENTS, BDATE, BHITS, BFILENAME)
+ 		VALUES(BNUMBER_TEST_SEQ.NEXTVAL,#{bpassword},#{bwriter},#{btitle},#{bcontents},SYSDATE,0,#{bfilename})
+ 	</insert>
+ 	
+ 	<select id="boardList" resultType="board">
+ 		SELECT * FROM BOARDTEST
+ 	</select>
+ 	
+ 	<select id="boardView" parameterType="int" resultType="board">
+ 		SELECT * FROM BOARDTEST WHERE BNUMBER=#{bnumber}
+ 	</select>
+ 	
+ 	<update id="boardHits" parameterType="int">
+ 		UPDATE BOARDTEST SET BHITS = BHITS+1 WHERE BNUMBER=#{bnumber}
+ 	</update>
+ 	
+ 	<update id="boardUpdateProcess" parameterType="board">
+ 		UPDATE BOARDTEST SET BTITLE=#{btitle}, BCONTENTS=#{bcontents} WHERE BNUMBER=#{bnumber}
+ 	</update>
+ 	
+ 	<delete id="boardDelete" parameterType="int">
+ 		DELETE FROM BOARDTEST WHERE BNUMBER=#{bnumber}
+ 	</delete>
+ 	
+ 	<select id="boardListCount" resultType="int">
+ 		SELECT COUNT(BNUMBER) FROM BOARDTEST
+ 	</select>
+ 	
+ 	<select id="boardListPaging" parameterType="page" resultType="board">
+ 		SELECT * FROM (SELECT B.*, ROW_NUMBER() OVER(ORDER BY BNUMBER DESC) AS RN FROM BOARDTEST B) WHERE RN BETWEEN #{startRow} AND #{endRow}
+ 	</select>
+ 	
+ 	<select id="boardSearch" resultType="board" parameterType="java.util.HashMap">
+ 		SELECT * FROM BOARDTEST
+ 			<include refid="search"></include>
+ 	</select>
+ 	
+ 	<sql id="search">
+ 		<choose>
+ 			<when test="type =='searchtitle'">
+ 				WHERE BTITLE LIKE '%'||#{word}||'%'
+ 			</when>
+ 			<when test="type == 'searchwriter'">
+ 				WHERE BWRITER LIKE '%'||#{word}||'%'
+ 			</when>
+ 		</choose>
+ 	</sql>
+ 	
+ 	<select id="boardHit" resultType="board">
+ 		SELECT * FROM BOARDTEST ORDER BY BHITS DESC
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ </mapper>

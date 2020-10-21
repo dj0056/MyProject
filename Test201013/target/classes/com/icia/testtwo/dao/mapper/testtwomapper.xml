@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="TestTwo"> 
+	<insert id="memberJoin" parameterType="testtwo">
+		INSERT INTO MEMBERTEST(TID,TPASSWORD,TNAME,TBIRTH,TEMAIL,POSTCODE,ADDRESS,TADDRESS,EXTRAADDRESS,TPHONE,TPROFILE)
+			VALUES(#{tid},#{tpassword},#{tname},#{tbirth},#{temail},#{postcode},#{address},#{taddress},#{extaaddress},#{tphone},#{tprofile})
+	</insert>
+	
+	<insert id="kakaoMemberJoin" parameterType="testtwo">
+		INSERT INTO MEMBERTEST(TID,TPASSWORD,TNAME,TBIRTH,TEMAIL,POSTCODE,ADDRESS,TADDRESS,EXTRAADDRESS,TPHONE,TPROFILE,KAKAOID) VALUES
+			(#{tid},#{tpassword},#{tname},#{tbirth},#{temail},#{postcode},#{address},#{taddress},#{extaaddress},#{tphone},#{tprofile},#{kakaoId})
+	</insert>
+	
+	<insert id="naverMemberJoin" parameterType="testtwo">
+		INSERT INTO MEMBERTEST(TID,TPASSWORD,TNAME,TBIRTH,TEMAIL,POSTCODE,ADDRESS,TADDRESS,EXTRAADDRESS,TPHONE,TPROFILE,NAVERID) VALUES
+			(#{tid},#{tpassword},#{tname},#{tbirth},#{temail},#{postcode},#{address},#{taddress},#{extaaddress},#{tphone},#{tprofile},#{naverId})
+	</insert>
+	
+	<select id="memberLogin" parameterType="testtwo" resultType="String">
+		SELECT TID FROM MEMBERTEST WHERE TID=#{tid} AND TPASSWORD=#{tpassword}
+	</select>
+	
+	<update id="memberUpdate" parameterType="testtwo">
+		UPDATE MEMBERTEST SET TEMAIL=#{temail}, POSTCODE=#{postcode}, ADDRESS=#{address}, TADDRESS=#{taddress}, EXTRAADDRESS=#{extaaddress}, TPHONE=#{tphone}, TPROFILE=#{tprofile} WHERE TID=#{tid}
+	</update>
+	
+	<select id="memberList" resultType="testtwo">
+		SELECT * FROM MEMBERTEST
+	</select>
+	
+	<select id="memberView" parameterType="String" resultType="testtwo">
+		SELECT * FROM MEMBERTEST WHERE TID=#{tid}
+	</select>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM MEMBERTEST WHERE TID=#{tid}
+	</delete>
+	
+	<select id="kakaoLogin" parameterType="String" resultType="String">
+		SELECT TID FROM MEMBERTEST WHERE KAKAOID=#{kakaoId}
+	</select>
+	
+	<select id="naverLogin" parameterType="String" resultType="String">
+		SELECT TID FROM MEMBERTEST WHERE NAVERID=#{naverId}
+	</select>
+	
+	<select id="idOverlap" parameterType="String" resultType="String">
+		SELECT TID FROM MEMBERTEST WHERE TID=#{TID}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ </mapper>
